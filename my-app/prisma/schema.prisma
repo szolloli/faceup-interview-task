@@ -12,3 +12,24 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Report {
+  @@map("report")
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+  name      String   
+  age       Int      
+  content   String
+  attachmentURL String?
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
+}
+
+model User {
+  @@map("user")
+  id        Int      @id @default(autoincrement())
+  name      String
+  age       Int
+  reports   Report[]
+}
